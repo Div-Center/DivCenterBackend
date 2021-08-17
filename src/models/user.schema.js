@@ -38,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
         };
         return acl[this.role];
       }
-    }
+    },
+    
   });
 
   // encrypt our password before we save to your table
