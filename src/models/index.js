@@ -7,6 +7,7 @@ const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
 const { Sequelize, DataTypes } = require('sequelize');
 
 const userSchema = require('./user.schema.js');
+const servicesSchema = require('./services.schema.js')
 
 
 
@@ -21,9 +22,11 @@ let sequelize = new Sequelize(DATABASE_URL, {
 });
 
 const user = userSchema(sequelize, DataTypes);
+const services = servicesSchema(sequelize, DataTypes);
 
 
 module.exports = {
   db: sequelize,
   user: user,
+  services: services,
 }
