@@ -17,7 +17,9 @@ router.delete('/user/:id', remove);
 // === === router functions === === //
 async function create(request, response) {
   const userObject = request.body;
+  console.log('request', request.body);
   const userData = await data.user.create(userObject);
+  console.log('userData', userData);
 
   response.status(200).send(userData);
 }

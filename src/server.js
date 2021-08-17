@@ -15,6 +15,10 @@ app.use(express.json());
 app.use(servicesRoutes);
 app.use(userRoutes);
 
+// app.post('/user', (req, res) => {
+//   res.send('got to post')
+// });
+
 module.exports = {
   app: app,
   start: (PORT) => {
