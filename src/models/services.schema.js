@@ -8,18 +8,27 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       required: true,
     },
-    assignee: {
-      type: DataTypes.STRING,
-      required: false,
-    },
-    difficulty: {
+    freelancer: {
       type: DataTypes.INTEGER,
       required: false,
     },
-    completed: {
-      type: DataTypes.BOOLEAN,
+    title: {
+      type: DataTypes.STRING,
+      required: false,
+    },
+    category: {
+      type: DataTypes.STRING,
       required: true,
-      defaultValue: false,
+      defaultValue: true,
+    },
+    price: {
+      type: DataTypes.INTEGER,
+    },
+    details: {
+      type: DataTypes.STRING,
+    },
+    image: {
+      type: DataTypes.STRING,
     }
   })
 }
