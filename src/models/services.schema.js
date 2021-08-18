@@ -19,10 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     category: {
       type: DataTypes.STRING,
       required: true,
-      defaultValue: true,
+      defaultValue: 'Misc',
     },
     price: {
       type: DataTypes.INTEGER,
+      required: true,
     },
     details: {
       type: DataTypes.STRING,
