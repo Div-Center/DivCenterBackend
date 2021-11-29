@@ -2,7 +2,11 @@
 
 require('dotenv').config();
 
-const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
+// const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
+// const DATABASE_URL = 'postgres://postgres@localhost:5432';
+
+// below: throw a !== instead of === if you want to connect to real database
+const DATABASE_URL = process.env.NODE_ENV === 'production' ? process.env.DATABASE_PROD : process.env.DATABASE_DEV
 
 const { Sequelize, DataTypes } = require('sequelize');
 
@@ -13,12 +17,12 @@ const servicesSchema = require('./services.schema.js')
 
 // Heroku needs this to run Sequelize
 let sequelize = new Sequelize(DATABASE_URL, {
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    }
-  }
+  // dialectOptions: {
+  //   ssl: {
+  //     require: false,
+  //     rejectUnauthorized: false,
+  //   }
+  // }
 });
 
 const user = userSchema(sequelize, DataTypes);

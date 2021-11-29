@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const { services } = require('../models/index.js');
 
 const data = require('../models/index.js');
 const router = express.Router();
@@ -17,13 +18,18 @@ router.delete('/services/:servicesId', remove);
 // === === router functions === === //
 async function create(request, response) {
   const servicesObject = request.body;
+  console.log('🎲services object', servicesObject);
   const servicesData = await data.services.create(servicesObject);
 
   response.status(200).send(servicesData);
 }
 
 async function getAll(request, response) {
-  const allServices = await data.services.findAll();
+  const allServices = await data.services.findAll({
+    order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ['id', 'ASC'],]
+  });
 
   response.status(200).send(allServices)
 }
@@ -40,19 +46,33 @@ async function getOne(request, response) {
 }
 
 async function update(request, response) {
-  const servicesId = request.params.servicesId;
-  const servicesObject = request.body;
-  const servicesData = await data.services.findOne({ where: { id: servicesId } });
-  await servicesData.update(servicesObject);
+  try {
+    const servicesId = request.params.servicesId;
+    const servicesObject = request.body;
+    const servicesData = await data.services.findOne({ where: { id: servicesId } });
+    console.log('services data', servicesData)
+    if (!servicesData) {
+      throw 'could not find service'
+    }
+    await servicesData.update(servicesObject);
 
-  response.status(200).send(servicesData);
+    response.status(200).send(servicesData);
+
+  } catch (error) {
+    console.log(error)
+    response.status(500).send(error);
+  }
 }
 
-async function remove(request, response) {
-  const servicesId = request.params.servicesId;
-  await data.services.destroy({ where: { id: servicesId } });
 
-  response.status(204).send('success!');
+async function remove(request, response) {
+
+  const servicesId = request.params.servicesId;
+  const res = await data.services.destroy({ where: { id: servicesId } });
+  // console.log('RES IS', res)
+
+  // TODO: add a failure state, or import 500 error. new const that incorporates line 53. if !, then error
+  response.status(200).send({ success: res, message: res ? 'Deleted!' : 'Error Deleting!' });
 }
 
 module.exports = router;
