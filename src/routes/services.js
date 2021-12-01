@@ -15,13 +15,22 @@ router.put('/services/:servicesId', update);
 router.delete('/services/:servicesId', remove);
 
 
+
 // === === router functions === === //
+////////////// this is the old CREATE ///////////////////
+// async function create(request, response) {
+//   const servicesObject = request.body;
+//   console.log('🎲services object', servicesObject);
+//   const servicesData = await data.services.create(servicesObject);
+
+//   response.status(200).send(servicesData);
+// }
+
 async function create(request, response) {
   const servicesObject = request.body;
-  console.log('🎲services object', servicesObject);
   const servicesData = await data.services.create(servicesObject);
 
-  response.status(200).send(servicesData);
+  response.status(200).send({ success: servicesData, message: servicesData ? 'Created!' : 'Error Creating!' });
 }
 
 async function getAll(request, response) {
@@ -71,7 +80,6 @@ async function remove(request, response) {
   const res = await data.services.destroy({ where: { id: servicesId } });
   // console.log('RES IS', res)
 
-  // TODO: add a failure state, or import 500 error. new const that incorporates line 53. if !, then error
   response.status(200).send({ success: res, message: res ? 'Deleted!' : 'Error Deleting!' });
 }
 
