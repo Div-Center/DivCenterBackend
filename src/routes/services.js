@@ -63,9 +63,9 @@ async function update(request, response) {
     if (!servicesData) {
       throw 'could not find service'
     }
-    await servicesData.update(servicesObject);
+    const res = await servicesData.update(servicesObject);
 
-    response.status(200).send(servicesData);
+    response.status(200).send({ success: res, message: res ? 'Updated!' : 'Error Updating!' });
 
   } catch (error) {
     console.log(error)
